@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 # from django.contrib.auth.models import User
 
@@ -81,9 +83,52 @@ class Machine(models.Model):
     def __str__(self):
         return f'{self.modelMachine}. Зав.№{self.zavNumberMachine}'
 
-# class TO(models.Model):
-#     id = models.ForeignKey(Machine, to_fieild='zavNumberMachine')
-#     typeTO = models.ForeignKey(Manual, on_delete=models.CASCADE, related_name='typeTO')
+class TO(models.Model):
+    id = models.ForeignKey(
+        Machine,
+        # to_fieild='zavNumberMachine',
+        on_delete=models.CASCADE,
+        primary_key=True
+    )
+    typeTO = models.ForeignKey(
+        Manual,
+        limit_choices_to={'nameClass': 'TTO'},
+        on_delete=models.CASCADE,
+        related_name='typeTO')
+    dateTO = models.DateTimeField(default=datetime.today)
+    runTime = models.IntegerField(default=0)
+    numberOrder = models.CharField(max_length=50, default=1)
+    dateOrder = models.DateTimeField(default=datetime.today)
+    serviceTO = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='serviceTO', default=1)
+
+    def __str__(self):
+        return f'ТО по заказ-наряду №{self.numberOrder}'
 
 
-# Create your models here.
+class Reclamation(models.Model):
+    id = models.ForeignKey(
+        Machine,
+        on_delete=models.CASCADE,
+        primary_key=True
+    )
+    dateFailure = models.DateTimeField(default=datetime.today)
+    runTime = models.IntegerField(default=0)
+    failureNode = models.ForeignKey(
+        Manual,
+        on_delete=models.CASCADE,
+        limit_choices_to={'nameClass': 'FND'},
+        related_name='failureNode')
+    descriptionFailure = models.TextField()
+    wayToRecover = models.ForeignKey(
+        Manual,
+        on_delete=models.CASCADE,
+        limit_choices_to={'nameClass': 'WTR'},
+        related_name='wayToRecover')
+    spareParts = models.TextField()
+    dateRetraiding = models.DateTimeField(default=datetime.today)
+    serviceCompanyR = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='serviceCompanyR', default=1)
+
+    @property
+    def duration(self):
+        return (self.dateRetraiding - self.dateFailure).days
+
