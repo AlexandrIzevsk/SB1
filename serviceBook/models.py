@@ -1,7 +1,11 @@
 from datetime import datetime
-
+from django.contrib.auth.models import User
 from django.db import models
-# from django.contrib.auth.models import User
+
+
+class RegUser(User):
+    serviceCompany = models.BooleanField(default=False)
+    manager = models.BooleanField(default=False)
 
 
 class Service(models.Model):
@@ -79,6 +83,9 @@ class Machine(models.Model):
     package = models.TextField(blank=True)
     client = models.CharField(max_length=150)
     serviceCompany = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='serviceCompany')
+
+    def get_absolute_url(self):
+        return reverse('machine_detail', args=[str(self.id)])
 
     def __str__(self):
         return f'{self.modelMachine}. Зав.№{self.zavNumberMachine}'
