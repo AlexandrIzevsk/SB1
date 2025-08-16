@@ -130,8 +130,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "/kabinet"
+LOGIN_REDIRECT_URL = "/machine"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+ACCOUNT_ADAPTER = 'serviceBook.adapter.NoNewUsersAccountAdapter'
