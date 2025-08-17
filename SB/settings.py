@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'serviceBook',
+    'django_filters',
+
     # 'allauth',
     # 'allauth.account',
 ]
@@ -137,3 +139,5 @@ STATICFILES_DIRS = [
 ]
 
 ACCOUNT_ADAPTER = 'serviceBook.adapter.NoNewUsersAccountAdapter'
+
+LOGOUT_REDIRECT_URL = "/login"

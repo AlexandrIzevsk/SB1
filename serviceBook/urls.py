@@ -2,7 +2,7 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 # Импортируем созданное нами представление
 from .views import (
-    MachineList, TOList
+    MachineList, TOList, ReclamationList
 )
 
 
@@ -17,6 +17,7 @@ urlpatterns = [
     # path('news/search/', News_SearchList.as_view(), name='news_search_list'),
     path('machine/', MachineList.as_view(), name='machine_list'),
     path('TO/', TOList.as_view(), name='TO_list'),
+    path('reclamation/', ReclamationList.as_view(), name='Reclamation_list'),
     # path('news/<int:pk>', OneNewsDetail.as_view(), name='news_detail'),
     # path('news/create/', NewsCreate.as_view(), name='news_create'),
     # path('news/<int:pk>/edit', NewsUpdate.as_view(), name='news_update'),

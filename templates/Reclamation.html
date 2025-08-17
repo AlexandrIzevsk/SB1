@@ -25,12 +25,12 @@ TO
 <!--    {{ TIME_ZONE }}-->
 <!--    {{ current_time|timezone:TIME_ZONE }} &lt;!&ndash; Отображаем время в выбранном часовом поясе  &ndash;&gt;-->
 
-    <h1>TO</h1>
+    <h1>Reclamation</h1>
 
-    {% for single_TO in TO %}
+    {% for single_reclamation in reclamation %}
         <hr>
-        <h2>Машина: {{ single_TO.machine }}</h2>
-        <h2>Тип ТО: {{ single_TO.typeTO }}</h2>
+        <h2>Машина: {{ single_reclamation.machine }}</h2>
+        <h2>Отказавший узел: {{ single_reclamation.failureNode }}</h2>
 
     {% endfor %}
 

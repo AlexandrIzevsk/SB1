@@ -2,8 +2,11 @@ from django.contrib.auth.models import User, Group
 from serviceBook.models import RegUser
 from django.views.generic.edit import CreateView
 from django.shortcuts import redirect, render
+from django.contrib.auth import logout
 
-from .forms import SignUpForm
+
+def logout_view(request):
+    logout(request)
 
 
 # class SignUpView(CreateView):

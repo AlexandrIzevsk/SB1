@@ -91,7 +91,7 @@ class Machine(models.Model):
         return f'{self.modelMachine}. Зав.№{self.zavNumberMachine}'
 
 class TO(models.Model):
-    id = models.ForeignKey(
+    machine = models.ForeignKey(
         Machine,
         # to_fieild='zavNumberMachine',
         on_delete=models.CASCADE,
@@ -113,10 +113,10 @@ class TO(models.Model):
 
 
 class Reclamation(models.Model):
-    id = models.ForeignKey(
+    machine = models.ForeignKey(
         Machine,
         on_delete=models.CASCADE,
-        primary_key=True
+        default=1
     )
     dateFailure = models.DateTimeField(default=datetime.today)
     runTime = models.IntegerField(default=0)

@@ -1,7 +1,8 @@
 {% extends 'flatpages/default.html' %}
-<!--{% load i18n %}-->
 
-<!--{% load tz %}-->
+
+
+
 
 {% load custom_tags %}
 
@@ -10,33 +11,101 @@ Machine
 {% endblock title %}
 
 {% block content %}
-<!--     {% get_current_timezone as TIME_ZONE %}-->
-<!--    <form action="" method="POST">-->
-<!--        {% csrf_token %}-->
-<!--        <label for="timezone">Time zone:</label>-->
-<!--        <select name="timezone">-->
-<!--            {% for tz in timezones %}-->
-<!--            <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ tz }}</option>-->
-<!--            {% endfor %}-->
-<!--        </select>-->
-<!--        <input type="submit" value="Set">-->
-<!--    </form>-->
 
-<!--    {{ TIME_ZONE }}-->
-<!--    {{ current_time|timezone:TIME_ZONE }} &lt;!&ndash; Отображаем время в выбранном часовом поясе  &ndash;&gt;-->
+<h1>Machines</h1>
 
-    <h1>Machines</h1>
 
+<form action="" method="get">
+       {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
+       {{ filterset.form.as_p }}
+       {# Добавим кнопку отправки данных формы #}
+       <input type="submit" value="Найти" />
+</form>
+{% if machine %}
+    <table>
+        <tr>
+            <td>Заводской №</td>
+            <td>Модель техники</td>
+            <td>КМодель двигателя</td>
+            <td>Зав.№ двигателя</td>
+            <td>Модель трансмиссии</td>
+            <td>Зав.№ трансмиссии</td>
+            <td>Модель ведущего моста</td>
+            <td>Зав.№ ведущ. моста</td>
+            <td>Модель управляемого моста</td>
+            <td>Зав.№ управю моста</td>
+            {% if user.is_authenticated %}
+                <td>Договор поставки №, дата</td>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <td>Дата отгрузки</td>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <td>Грузополучатель</td>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <td>Адрес поставки</td>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <td>Комплектация</td>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <td>Клиент</td>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <td>Сервисная компания</td>
+            {% endif %}
+        </tr>
+
+           <!-- Для каждого товара будете генерироваться новая строчка,
+           т.е. новый HTML код, который указан в теле цикла.
+           При этом сам цикл работает точно так же, как и в Python.
+           product — переменная цикла, т.е. наш товар полученный из списка -->
     {% for single_machine in machine %}
-        <hr>
-        <h2>Модель машины: {{ single_machine.modelMachine }}</h2>
-        <h2>Модель мотора: {{ single_machine.modelMotor }}</h2>
-        {% if user.is_authenticated %}
-            <h2>Модель мотора: {{ single_machine.modelMotor }}</h2>
-        {% endif %}
+        <tr>
+               <!-- Не забываем, что переменные в шаблоне ничем не отличаются
+                от переменных в Python. Здесь также можно получать доступ к
+                полям объекта модели. Например, здесь мы выводим имя,
+                в следующем столбце описание, и т.д.  -->
+               <td>{{ single_machine.zavNumberMachine }}</td>
+               <td>{{ single_machine.modelMachine }}</td>
+               <td>{{ single_machine.modelMotor }}</td>
+               <td>{{ single_machine.zavNumberMotor }}</td>
+               <td>{{ single_machine.modelTransmission }}</td>
+               <td>{{ single_machine.zavNumberTransmission }}</td>
+               <td>{{ single_machine.modelDriveAxile }}</td>
+               <td>{{ single_machine.zavNumberDA }}</td>
+               <td>{{ single_machine.modelControllAxile }}</td>
+               <td>{{ single_machine.zavNumberCA }}</td>
+               {% if user.is_authenticated %}
+                    <td>{{ single_machine.deliveryContract }}</td>
+               {% endif %}
+               {% if user.is_authenticated %}
+                    <td>{{ single_machine.shipDate|date:'M d Y'}}</td>
+               {% endif %}
+               {% if user.is_authenticated %}
+                    <td>{{ single_machine.recipient }}</td>
+               {% endif %}
+               {% if user.is_authenticated %}
+                    <td>{{ single_machine.deliveryAddress }}</td>
+               {% endif %}
+               {% if user.is_authenticated %}
+                    <td>{{ single_machine.package }}</td>
+               {% endif %}
+               {% if user.is_authenticated %}
+                    <td>{{ single_machine.client }}</td>
+               {% endif %}
+               {% if user.is_authenticated %}
+                    <td>{{ single_machine.serviceCompany }}</td>
+               {% endif %}
+           </tr>
+           {% endfor %}
 
-    {% endfor %}
+       </table>
 
+
+{% else %}
+       <h2>Машин нет!</h2>{% endif %}
    {# Добавляем пагинацию на страницу #}
 
    {# Информация о предыдущих страницах #}
@@ -65,4 +134,5 @@ Machine
            {% endif %}
        {% endcache %}
    {% endif %}
+
 {% endblock content %}
