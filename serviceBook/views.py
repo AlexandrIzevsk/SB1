@@ -6,7 +6,7 @@ from django.views.generic import (
 from .models import (
     Machine, TO, Reclamation
 )
-from .filters import MachineFilter
+from .filters import MachineFilter, TOFilter, ReclamationFilter
 
 
 class MachineList(ListView):
@@ -16,17 +16,11 @@ class MachineList(ListView):
     context_object_name = 'machine'
     paginate_by = 10
 
-    # Переопределяем функцию получения списка товаров
     def get_queryset(self):
         # Получаем обычный запрос
         queryset = super().get_queryset()
-        # Используем наш класс фильтрации.
-        # self.request.GET содержит объект QueryDict, который мы рассматривали
-        # в этом юните ранее.
-        # Сохраняем нашу фильтрацию в объекте класса,
-        # чтобы потом добавить в контекст и использовать в шаблоне.
         self.filterset = MachineFilter(self.request.GET, queryset)
-        # Возвращаем из функции отфильтрованный список товаров
+        # Возвращаем из функции отфильтрованный список машин
         return self.filterset.qs
 
     def get_context_data(self, **kwargs):
@@ -34,7 +28,6 @@ class MachineList(ListView):
         # Добавляем в контекст объект фильтрации.
         context['filterset'] = self.filterset
         return context
-
 
 
 class TOList(PermissionRequiredMixin,ListView):
@@ -46,6 +39,19 @@ class TOList(PermissionRequiredMixin,ListView):
     context_object_name = 'TO'
     paginate_by = 10
 
+    def get_queryset(self):
+        # Получаем обычный запрос
+        queryset = super().get_queryset()
+        self.filterset = TOFilter(self.request.GET, queryset)
+        # Возвращаем из функции отфильтрованный список машин
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Добавляем в контекст объект фильтрации.
+        context['filterset'] = self.filterset
+        return context
+
 
 class ReclamationList(PermissionRequiredMixin,ListView):
     # logger.info('INFO')
@@ -56,4 +62,17 @@ class ReclamationList(PermissionRequiredMixin,ListView):
     context_object_name = 'reclamation'
     paginate_by = 10
 
+    def get_queryset(self):
+        # Получаем обычный запрос
+        queryset = super().get_queryset()
+        self.filterset = ReclamationFilter(self.request.GET, queryset)
+        # Возвращаем из функции отфильтрованный список машин
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Добавляем в контекст объект фильтрации.
+        context['filterset'] = self.filterset
+
+        return context
 

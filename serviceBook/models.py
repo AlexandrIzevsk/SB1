@@ -93,7 +93,6 @@ class Machine(models.Model):
 class TO(models.Model):
     machine = models.ForeignKey(
         Machine,
-        # to_fieild='zavNumberMachine',
         on_delete=models.CASCADE,
         primary_key=True
     )
@@ -137,5 +136,7 @@ class Reclamation(models.Model):
 
     @property
     def duration(self):
-        return (self.dateRetraiding - self.dateFailure).days
+        day = (self.dateRetraiding - self.dateFailure).days
+        print(day)
+        return day
 

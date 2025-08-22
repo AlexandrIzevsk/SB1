@@ -6,34 +6,51 @@
 {% load custom_tags %}
 
 {% block title %}
-TO
+Reclamation
 {% endblock title %}
 
 {% block content %}
-<!--     {% get_current_timezone as TIME_ZONE %}-->
-<!--    <form action="" method="POST">-->
-<!--        {% csrf_token %}-->
-<!--        <label for="timezone">Time zone:</label>-->
-<!--        <select name="timezone">-->
-<!--            {% for tz in timezones %}-->
-<!--            <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ tz }}</option>-->
-<!--            {% endfor %}-->
-<!--        </select>-->
-<!--        <input type="submit" value="Set">-->
-<!--    </form>-->
 
-<!--    {{ TIME_ZONE }}-->
-<!--    {{ current_time|timezone:TIME_ZONE }} &lt;!&ndash; Отображаем время в выбранном часовом поясе  &ndash;&gt;-->
+<h1>Reclamation</h1>
 
-    <h1>Reclamation</h1>
+<form action="" method="get">
+       {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
+       {{ filterset.form.as_p }}
+       {# Добавим кнопку отправки данных формы #}
+       <input type="submit" value="Найти" />
+</form>
 
+{% if reclamation %}
+    <table>
+        <tr>
+            <td>Машина</td>
+            <td>Дата отказа</td>
+            <td>Наработка м/час</td>
+            <td>Узел отказа</td>
+            <td>Описание отказа</td>
+            <td>Способ восстановления</td>
+            <td>Используемые составные части</td>
+            <td>Дата восстановления</td>
+            <td>Время простоя техники</td>
+            <td>Сервисная компания</td>
+        </tr>
     {% for single_reclamation in reclamation %}
-        <hr>
-        <h2>Машина: {{ single_reclamation.machine }}</h2>
-        <h2>Отказавший узел: {{ single_reclamation.failureNode }}</h2>
+            <tr>
+               <td>{{ single_reclamation.machine }}</td>
+               <td>{{ single_reclamation.dateFailure }}</td>
+               <td>{{ single_reclamation.runTime }}</td>
+               <td>{{ single_reclamation.failureNode }}</td>
+               <td>{{ single_reclamation.descriptionFailure }}</td>
+               <td>{{ single_reclamation.wayToRecover }}</td>
+               <td>{{ single_reclamation.spareParts }}</td>
+               <td>{{ single_reclamation.dateRetraiding }}</td>
+               <td>{{ single_reclamation.dateRetraiding|timeuntil:single_reclamation.dateFailure }}</td>
+               <td>{{ single_reclamation.serviceCompanyR }}</td>
+           </tr>
 
     {% endfor %}
-
+{% else %}
+       <h2>Рекламаций нет!</h2>{% endif %}
    {# Добавляем пагинацию на страницу #}
 
    {# Информация о предыдущих страницах #}

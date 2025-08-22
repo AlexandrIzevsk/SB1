@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'rest_framework',
+    'corsheaders',
+
     'serviceBook',
     'django_filters',
 
@@ -58,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'SB.urls'
@@ -141,3 +145,9 @@ STATICFILES_DIRS = [
 ACCOUNT_ADAPTER = 'serviceBook.adapter.NoNewUsersAccountAdapter'
 
 LOGOUT_REDIRECT_URL = "/login"
+
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHIELIST = (
+    'http://localhost:3000',
+)

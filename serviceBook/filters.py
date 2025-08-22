@@ -1,6 +1,6 @@
 from django_filters import FilterSet, DateTimeFilter, ModelChoiceFilter
 # from django.forms import DateTimeInput
-from .models import Machine, Manual
+from .models import Machine, Manual, Service
 
 
 class MachineFilter(FilterSet):
@@ -39,3 +39,33 @@ class MachineFilter(FilterSet):
         fields = {
             'zavNumberMachine': ['icontains'],
         }
+
+
+class TOFilter(FilterSet):
+    machine = ModelChoiceFilter(
+        field_name='machine',
+        queryset=Machine.objects.all(),
+        label='ZavNumberMachine',
+        empty_label='Любой',
+    )
+    typeTO = ModelChoiceFilter(
+        field_name='typeTO',
+        queryset=Manual.objects.filter(nameClass='TTO'),
+        label='TypeTO',
+        empty_label='Любой',
+    )
+    serviceTO = ModelChoiceFilter(
+        field_name='serviceTO',
+        queryset=Service.objects.all(),
+        label='ServiceTO',
+        empty_label='Любой',
+    )
+
+
+class ReclamationFilter(FilterSet):
+    serviceCompanyR = ModelChoiceFilter(
+        field_name='serviceCompanyR',
+        queryset=Service.objects.all(),
+        label='ServiceCompanyR',
+        empty_label='Любая',
+    )
