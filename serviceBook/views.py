@@ -4,17 +4,17 @@ from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
 from .models import (
-    Machine, TO, Reclamation
+    Machine, TO, Reclamation, Manual
 )
 from .filters import MachineFilter, TOFilter, ReclamationFilter
+from .forms import MachineForm
 
 
 class MachineList(ListView):
-    # logger.info('INFO')
     queryset = Machine.objects.order_by('-shipDate')
     template_name = 'Machine.html'
     context_object_name = 'machine'
-    paginate_by = 10
+    paginate_by = 4
 
     def get_queryset(self):
         # Получаем обычный запрос
@@ -28,6 +28,25 @@ class MachineList(ListView):
         # Добавляем в контекст объект фильтрации.
         context['filterset'] = self.filterset
         return context
+
+
+class MachineCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('serviceBook.add_machine',)
+    form_class = MachineForm
+    model = Machine
+    template_name = 'machine_edit.html'
+
+
+class MachineUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('serviceBook.change_machine',)
+    form_class = MachineForm
+    model = Machine
+    template_name = 'machine_edit.html'
+
+class OneMachineDetail(DetailView):
+    queryset = Machine.objects.all()
+    template_name = 'one_machine.html'
+    context_object_name = 'machine'
 
 
 class TOList(PermissionRequiredMixin,ListView):
@@ -76,3 +95,8 @@ class ReclamationList(PermissionRequiredMixin,ListView):
 
         return context
 
+
+class OneManualDetail(DetailView):
+    queryset = Manual.objects.all()
+    template_name = 'one_manual.html'
+    context_object_name = 'manual'

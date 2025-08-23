@@ -1,9 +1,5 @@
 {% extends 'flatpages/default.html' %}
 
-
-
-
-
 {% load custom_tags %}
 
 {% block title %}
@@ -25,7 +21,7 @@ Machine
         <tr>
             <td>Заводской №</td>
             <td>Модель техники</td>
-            <td>КМодель двигателя</td>
+            <td>Модель двигателя</td>
             <td>Зав.№ двигателя</td>
             <td>Модель трансмиссии</td>
             <td>Зав.№ трансмиссии</td>
@@ -62,22 +58,18 @@ Machine
            product — переменная цикла, т.е. наш товар полученный из списка -->
     {% for single_machine in machine %}
         <tr>
-               <!-- Не забываем, что переменные в шаблоне ничем не отличаются
-                от переменных в Python. Здесь также можно получать доступ к
-                полям объекта модели. Например, здесь мы выводим имя,
-                в следующем столбце описание, и т.д.  -->
-               <td>{{ single_machine.zavNumberMachine }}</td>
-               <td>{{ single_machine.modelMachine }}</td>
-               <td>{{ single_machine.modelMotor }}</td>
-               <td>{{ single_machine.zavNumberMotor }}</td>
-               <td>{{ single_machine.modelTransmission }}</td>
-               <td>{{ single_machine.zavNumberTransmission }}</td>
-               <td>{{ single_machine.modelDriveAxile }}</td>
-               <td>{{ single_machine.zavNumberDA }}</td>
-               <td>{{ single_machine.modelControllAxile }}</td>
-               <td>{{ single_machine.zavNumberCA }}</td>
+               <td><a href="{{ link }}{{ single_machine.get_absolute_url }}">{{ single_machine.zavNumberMachine }}</a></td>
+               <td><a href="{{ link }}{{ single_machine.modelMachine.get_absolute_url }}">{{ single_machine.modelMachine }}</a></td>
+               <td><a href="{{ link }}{{ single_machine.modelMotor.get_absolute_url }}">{{ single_machine.modelMotor }}</a></td>
+               <td><a href="{{ link }}{{ single_machine.modelMotor.get_absolute_url }}">{{ single_machine.zavNumberMotor }}</a></td>
+               <td><a href="{{ link }}{{ single_machine.modelTransmission.get_absolute_url }}">{{ single_machine.modelTransmission }}</a></td>
+               <td><a href="{{ link }}{{ single_machine.modelTransmission.get_absolute_url }}">{{ single_machine.zavNumberTransmission }}</a></td>
+               <td><a href="{{ link }}{{ single_machine.modelDriveAxile.get_absolute_url }}">{{ single_machine.modelDriveAxile }}<a/></td>
+               <td><a href="{{ link }}{{ single_machine.modelDriveAxile.get_absolute_url }}">{{ single_machine.zavNumberDA }}</a></td>
+               <td><a href="{{ link }}{{ single_machine.modelControllAxile.get_absolute_url }}">{{ single_machine.modelControllAxile }}</a></td>
+               <td><a href="{{ link }}{{ single_machine.modelControllAxile.get_absolute_url }}">{{ single_machine.zavNumberCA }}</a></td>
                {% if user.is_authenticated %}
-                    <td>{{ single_machine.deliveryContract }}</td>
+                    <td><a href="{{ link }}{{ single_machine.get_absolute_url }}">{{ single_machine.deliveryContract }}</a></td>
                {% endif %}
                {% if user.is_authenticated %}
                     <td>{{ single_machine.shipDate|date:'M d Y'}}</td>
@@ -108,30 +100,30 @@ Machine
    {# Добавляем пагинацию на страницу #}
 
    {# Информация о предыдущих страницах #}
-   {% if page_obj.has_previous %}
-        {% load cache %}
-        {% cache 60 header %}
-            <a href="?{% url_replace page=1 %}">1</a>
-           {% if page_obj.previous_page_number != 1 %}
-               ...
-               <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
-           {% endif %}
-        {% endcache %}
-   {% endif %}
+{% if page_obj.has_previous %}
+    {% load cache %}
+    {% cache 1 header %}
+        <a href="?{% url_replace page=1 %}">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endcache %}
+{% endif %}
 
    {# Информация о текущей странице #}
-   {{ page_obj.number }}
+{{ page_obj.number }}
 
    {# Информация о следующих страницах #}
-   {% if page_obj.has_next %}
-       {% load cache %}
-       {% cache 60 header %}
-           <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
-           {% if paginator.num_pages != page_obj.next_page_number %}
-               ...
-               <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
-           {% endif %}
-       {% endcache %}
-   {% endif %}
+{% if page_obj.has_next %}
+    {% load cache %}
+    {% cache 1 header %}
+        <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endcache %}
+{% endif %}
 
 {% endblock content %}

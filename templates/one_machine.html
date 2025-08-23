@@ -1,0 +1,36 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+OneMachine
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+    <h3>Модель техники: {{ machine.modelMachine }}(зав. №{{ machine.zavNumberMachine }})</h3>
+    <h4>Модель двигателя: {{ machine.modelMotor }}(зав. №{{ machine.zavNumberMotor }})</h4>
+    <h4>Модель трансмиссии: {{ machine.modelTransmission }}(зав. №{{ machine.zavNumberTransmission }})</h4>
+    <h4>Модель ведущего моста: {{ machine.modelDriveAxile }}(зав. №{{ machine.zavNumberDA }})</h4>
+    <h4>Модель управляемого моста: {{ machine.modelControllAxile }}(зав. №{{ machine.zavNumberCA }})</h4>
+    {% if user.is_authenticated %}
+        <h4>Договор поставки № {{ machine.deliveryContract }}</h4>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <h4>Дата отгрузки: {{ machine.shipDate|date:'M d Y'}}</h4>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <h4>Грузополучатель: {{ machine.recipient }}</h4>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <h4>Адрес поставки: {{ machine.deliveryAddress }}</h4>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <h4>Комплектация: {{ machine.package }}</h4>
+    {% endif %}
+        {% if user.is_authenticated %}
+        <h4>Клиент: {{ machine.client }}</h4>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <h4>Сервисная компания: {{ machine.serviceCompany }}</h4>
+    {% endif %}
+{% endblock content %}

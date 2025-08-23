@@ -1,3 +1,4 @@
+from django.urls import reverse
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db import models
@@ -44,6 +45,9 @@ class Manual(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    def get_absolute_url(self):
+        return reverse('manual_detail', args=[str(self.id)])
+
 
 class Machine(models.Model):
     zavNumberMachine = models.CharField(max_length=20, unique=True)
@@ -77,7 +81,7 @@ class Machine(models.Model):
         related_name='modelControllAxile')
     zavNumberCA = models.CharField(max_length=20)
     deliveryContract = models.CharField(max_length=50)
-    shipDate = models.DateTimeField(auto_now_add=True)
+    shipDate = models.DateTimeField(default=datetime.today)
     recipient = models.CharField(max_length=100)
     deliveryAddress = models.CharField(max_length=150)
     package = models.TextField(blank=True)
@@ -85,7 +89,7 @@ class Machine(models.Model):
     serviceCompany = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='serviceCompany')
 
     def get_absolute_url(self):
-        return reverse('machine_detail', args=[str(self.id)])
+        return reverse('machine_detail' , args=[str(self.id)])
 
     def __str__(self):
         return f'{self.modelMachine}. Зав.№{self.zavNumberMachine}'
