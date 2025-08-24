@@ -1,6 +1,7 @@
 from django.urls import include, path
-from django.views.generic import TemplateView
-# Импортируем созданное нами представление
+from rest_framework import routers
+from serviceBook import viewsets
+
 from .views import (
     MachineList, TOList, ReclamationList, MachineCreate, MachineUpdate,
     OneMachineDetail, OneManualDetail, TOCreate, OneTODetail, TOUpdate,
@@ -8,7 +9,16 @@ from .views import (
 )
 
 
+router = routers.DefaultRouter()
+router.register(r'machine', viewsets.MachineViewset)
+router.register(r'TO', viewsets.TOViewset)
+router.register(r'reclamation', viewsets.ReclamationViewset)
+router.register(r'manual', viewsets.ManualViewset)
+
 urlpatterns = [
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
     path('machine/', MachineList.as_view(), name='machine_list'),
     path('machine/<int:pk>', OneMachineDetail.as_view(), name='machine_detail'),
     path('machine/create/', MachineCreate.as_view(), name='machine_create'),
