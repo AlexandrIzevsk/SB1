@@ -98,7 +98,7 @@ class TO(models.Model):
     machine = models.ForeignKey(
         Machine,
         on_delete=models.CASCADE,
-        primary_key=True
+        # primary_key=True
     )
     typeTO = models.ForeignKey(
         Manual,
@@ -113,6 +113,9 @@ class TO(models.Model):
 
     def __str__(self):
         return f'ТО по заказ-наряду №{self.numberOrder}'
+
+    def get_absolute_url(self):
+        return reverse('TO_detail' , args=[str(self.id)])
 
 
 class Reclamation(models.Model):
@@ -144,3 +147,5 @@ class Reclamation(models.Model):
         print(day)
         return day
 
+    def get_absolute_url(self):
+        return reverse('Reclamation_detail' , args=[str(self.id)])

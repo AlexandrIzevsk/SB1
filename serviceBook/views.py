@@ -7,7 +7,7 @@ from .models import (
     Machine, TO, Reclamation, Manual
 )
 from .filters import MachineFilter, TOFilter, ReclamationFilter
-from .forms import MachineForm
+from .forms import MachineForm, TOForm, ReclamationForm
 
 
 class MachineList(ListView):
@@ -72,8 +72,28 @@ class TOList(PermissionRequiredMixin,ListView):
         return context
 
 
+class TOCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('serviceBook.add_to',)
+    form_class = TOForm
+    model = TO
+    template_name = 'TO_edit.html'
+
+
+class TOUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('serviceBook.change_to',)
+    form_class = TOForm
+    model = TO
+    template_name = 'TO_edit.html'
+
+
+class OneTODetail(DetailView):
+    queryset = TO.objects.all()
+    template_name = 'one_TO.html'
+    context_object_name = 'TO'
+
+
+
 class ReclamationList(PermissionRequiredMixin,ListView):
-    # logger.info('INFO')
     raise_exception = True
     permission_required = ('serviceBook.view_reclamation',)
     queryset = Reclamation.objects.order_by('-dateFailure')
@@ -94,6 +114,26 @@ class ReclamationList(PermissionRequiredMixin,ListView):
         context['filterset'] = self.filterset
 
         return context
+
+
+class ReclamationCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('serviceBook.add_reclamation',)
+    form_class = ReclamationForm
+    model = Reclamation
+    template_name = 'Reclamation_edit.html'
+
+
+class ReclamationUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('serviceBook.change_reclamation',)
+    form_class = ReclamationForm
+    model = Reclamation
+    template_name = 'Reclamation_edit.html'
+
+
+class OneReclamationDetail(DetailView):
+    queryset = Reclamation.objects.all()
+    template_name = 'one_Reclamation.html'
+    context_object_name = 'Reclamation'
 
 
 class OneManualDetail(DetailView):

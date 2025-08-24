@@ -1,0 +1,17 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+OneTO
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+    <h3>{{ TO.machine }}</h3>
+    <h4>{{ TO.typeTO }}</h4>
+    <h4>{{ TO.dateTO }}</h4>
+    <h4>{{ TO.runTime }}</h4>
+    <h4>{{ TO.numberOrder }}</h4>
+    <h4>{{ TO.dateOrder }}</h4>
+    <h4>{{ TO.serviceTO }}</h4>
+{% endblock content %}

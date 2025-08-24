@@ -1,0 +1,19 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+OneReclamation
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+    <h3>{{ Reclamation.machine }}</h3>
+    <h4>{{ Reclamation.dateFailure }}</h4>
+    <h4>{{ Reclamation.runTime }}</h4>
+    <h4>{{ Reclamation.failureNode }}</h4>
+    <h4>{{ Reclamation.descriptionFailure }}</h4>
+    <h4>{{ Reclamation.wayToRecover }}</h4>
+    <h4>{{ Reclamation.spareParts }}</h4>
+    <h4>{{ Reclamation.dateRetraiding }}</h4>
+    <h4>{{ Reclamation.serviceCompanyR }}</h4>
+{% endblock content %}

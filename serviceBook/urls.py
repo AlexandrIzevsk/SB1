@@ -3,31 +3,23 @@ from django.views.generic import TemplateView
 # Импортируем созданное нами представление
 from .views import (
     MachineList, TOList, ReclamationList, MachineCreate, MachineUpdate,
-    OneMachineDetail, OneManualDetail
+    OneMachineDetail, OneManualDetail, TOCreate, OneTODetail, TOUpdate,
+    ReclamationCreate, OneReclamationDetail, ReclamationUpdate
 )
 
 
 urlpatterns = [
-    # path('api/', include(router.urls)),
-    # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    #
-    # path('swagger-ui/', TemplateView.as_view(
-    #     template_name='swagger-ui.html',
-    #     extra_context={'schema_url': 'openapi-schema'}
-    # )),
-    # path('news/search/', News_SearchList.as_view(), name='news_search_list'),
     path('machine/', MachineList.as_view(), name='machine_list'),
-    path('TO/', TOList.as_view(), name='TO_list'),
-    path('reclamation/', ReclamationList.as_view(), name='Reclamation_list'),
     path('machine/<int:pk>', OneMachineDetail.as_view(), name='machine_detail'),
     path('machine/create/', MachineCreate.as_view(), name='machine_create'),
     path('machine/<int:pk>/edit', MachineUpdate.as_view(), name='machine_update'),
     path('manual/<int:pk>', OneManualDetail.as_view(), name='manual_detail'),
-    # path('articles/search/', Articles_SearchList.as_view(), name='articles_search_list'),
-    # path('articles/', ArticlesList.as_view(), name='articles_list'),
-    # path('articles/<int:pk>', OneArticlesDetail.as_view(), name='articles_detail'),
-    # path('articles/create/', ArticlesCreate.as_view(), name='articles_create'),
-    # path('articles/<int:pk>/edit', ArticlesUpdate.as_view(), name='articles_update'),
-    # path('articles/<int:pk>/delete', ArticlesDelete.as_view(), name='articles_delete'),
-    # path('subscriptions/', subscriptions, name='subscriptions'),
+    path('TO/', TOList.as_view(), name='TO_list'),
+    path('TO/create/', TOCreate.as_view(), name='TO_create'),
+    path('TO/<int:pk>', OneTODetail.as_view(), name='TO_detail'),
+    path('TO/<int:pk>/edit', TOUpdate.as_view(), name='TO_update'),
+    path('reclamation/', ReclamationList.as_view(), name='Reclamation_list'),
+    path('reclamation/create/', ReclamationCreate.as_view(), name='Reclamation_create'),
+    path('reclamation/<int:pk>', OneReclamationDetail.as_view(), name='Reclamation_detail'),
+    path('reclamation/<int:pk>/edit', ReclamationUpdate.as_view(), name='Reclamation_update'),
 ]
