@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -59,7 +60,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'SB.urls'
@@ -146,8 +146,12 @@ LOGOUT_REDIRECT_URL = "/login"
 
 CORS_ORIGIN_ALLOW_ALL = False
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
 CORS_ORIGIN_WHIELIST = (
-    'http://localhost:3000',
+    'http://localhost:3000/',
 )
 
 CACHES = {
